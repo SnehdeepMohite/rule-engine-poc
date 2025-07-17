@@ -1,0 +1,419 @@
+{
+	"info": {
+		"_postman_id": "rule-engine-poc-collection",
+		"name": "Rule Engine POC",
+		"description": "Comprehensive API collection for testing the Spring Boot Rule Engine with PostgreSQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Rule Evaluation",
+			"item": [
+				{
+					"name": "Evaluate Rules - Amazon Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product\": \"Channel\",\n  \"payload\": {\n    \"channel\": \"amazon\",\n    \"order_total\": 150\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/evaluate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"evaluate"
+							]
+						},
+						"description": "Test rule evaluation for Amazon channel with order total > $100"
+					},
+					"response": []
+				},
+				{
+					"name": "Evaluate Rules - eBay Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product\": \"Channel\",\n  \"payload\": {\n    \"channel\": \"ebay\",\n    \"order_total\": 75\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/evaluate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"evaluate"
+							]
+						},
+						"description": "Test rule evaluation for eBay channel with order total < $100"
+					},
+					"response": []
+				},
+				{
+					"name": "Evaluate Rules - WMS Low Stock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product\": \"WMS\",\n  \"payload\": {\n    \"stock_level\": 5,\n    \"product_category\": \"electronics\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/evaluate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"evaluate"
+							]
+						},
+						"description": "Test WMS rule for low stock level in electronics category"
+					},
+					"response": []
+				},
+				{
+					"name": "Evaluate Rules - WMS Normal Stock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product\": \"WMS\",\n  \"payload\": {\n    \"stock_level\": 25,\n    \"product_category\": \"clothing\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/evaluate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"evaluate"
+							]
+						},
+						"description": "Test WMS rule for normal stock level"
+					},
+					"response": []
+				}
+			],
+			"description": "APIs for evaluating rules against different payloads"
+		},
+		{
+			"name": "Rule Management (Admin)",
+			"item": [
+				{
+					"name": "Get All Rules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/rules",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"rules"
+							]
+						},
+						"description": "Retrieve all rules from the database"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rules by Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/rules/product/Channel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"rules",
+								"product",
+								"Channel"
+							]
+						},
+						"description": "Retrieve rules for a specific product"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rule by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/rules/{{rule_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"rules",
+								"{{rule_id}}"
+							]
+						},
+						"description": "Retrieve a specific rule by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Rule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product\": \"Channel\",\n  \"name\": \"Walmart Discount\",\n  \"description\": \"Apply 15% discount for Walmart orders over $200\",\n  \"priority\": 15,\n  \"conditions\": {\n    \"operator\": \"AND\",\n    \"conditions\": [\n      {\n        \"field\": \"channel\",\n        \"operator\": \"equals\",\n        \"value\": \"walmart\"\n      },\n      {\n        \"field\": \"order_total\",\n        \"operator\": \"greater_than\",\n        \"value\": 200\n      }\n    ]\n  },\n  \"actions\": {\n    \"actions\": [\n      {\n        \"type\": \"discount\",\n        \"value\": 15,\n        \"description\": \"Apply 15% discount\"\n      }\n    ]\n  },\n  \"enabled\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/rules",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"rules"
+							]
+						},
+						"description": "Create a new rule for Walmart channel"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Rule",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product\": \"Channel\",\n  \"name\": \"Amazon Discount Updated\",\n  \"description\": \"Apply 12% discount for Amazon orders over $100\",\n  \"priority\": 10,\n  \"conditions\": {\n    \"operator\": \"AND\",\n    \"conditions\": [\n      {\n        \"field\": \"channel\",\n        \"operator\": \"equals\",\n        \"value\": \"amazon\"\n      },\n      {\n        \"field\": \"order_total\",\n        \"operator\": \"greater_than\",\n        \"value\": 100\n      }\n    ]\n  },\n  \"actions\": {\n    \"actions\": [\n      {\n        \"type\": \"discount\",\n        \"value\": 12,\n        \"description\": \"Apply 12% discount\"\n      }\n    ]\n  },\n  \"enabled\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/rules/{{rule_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"rules",
+								"{{rule_id}}"
+							]
+						},
+						"description": "Update an existing rule"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Rule",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/rules/{{rule_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"rules",
+								"{{rule_id}}"
+							]
+						},
+						"description": "Delete a rule by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle Rule Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"enabled\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/admin/rules/{{rule_id}}/toggle",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"rules",
+								"{{rule_id}}",
+								"toggle"
+							]
+						},
+						"description": "Enable or disable a rule"
+					},
+					"response": []
+				}
+			],
+			"description": "Admin APIs for managing rules (CRUD operations)"
+		},
+		{
+			"name": "Cache Management",
+			"item": [
+				{
+					"name": "Get Cache Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/cache/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"cache",
+								"status"
+							]
+						},
+						"description": "Get the current status of the rule cache"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Cache",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/admin/cache/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"admin",
+								"cache",
+								"refresh"
+							]
+						},
+						"description": "Manually refresh the rule cache from database"
+					},
+					"response": []
+				}
+			],
+			"description": "APIs for managing the rule cache"
+		},
+		{
+			"name": "Health & Monitoring",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"health"
+							]
+						},
+						"description": "Check application health status"
+					},
+					"response": []
+				},
+				{
+					"name": "Application Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/actuator/info",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"actuator",
+								"info"
+							]
+						},
+						"description": "Get application information"
+					},
+					"response": []
+				}
+			],
+			"description": "Health and monitoring endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "rule_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+} 
