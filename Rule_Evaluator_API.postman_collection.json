@@ -1,0 +1,412 @@
+{
+	"info": {
+		"_postman_id": "rule-evaluator-api",
+		"name": "Rule Evaluator API",
+		"description": "Collection for testing MVEL rule evaluation endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Evaluate Hardcoded Rule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"order\": {\n      \"amount\": 1500,\n      \"country\": \"IN\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate"
+					]
+				},
+				"description": "Evaluates the hardcoded condition: order.amount > 1000 && order.country == 'IN'"
+			}
+		},
+		{
+			"name": "Evaluate Hardcoded Rule - True Case",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"order\": {\n      \"amount\": 2000,\n      \"country\": \"IN\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate"
+					]
+				},
+				"description": "Should return true: amount > 1000 and country is IN"
+			}
+		},
+		{
+			"name": "Evaluate Hardcoded Rule - False Case (Low Amount)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"order\": {\n      \"amount\": 500,\n      \"country\": \"IN\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate"
+					]
+				},
+				"description": "Should return false: amount <= 1000"
+			}
+		},
+		{
+			"name": "Evaluate Hardcoded Rule - False Case (Wrong Country)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"order\": {\n      \"amount\": 1500,\n      \"country\": \"US\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate"
+					]
+				},
+				"description": "Should return false: country is not IN"
+			}
+		},
+		{
+			"name": "Evaluate Custom Rule - Simple Condition",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"age\": 25,\n    \"income\": 50000\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/custom?condition=age%20%3E%3D%2018%20%26%26%20income%20%3E%3D%2040000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"custom"
+					],
+					"query": [
+						{
+							"key": "condition",
+							"value": "age >= 18 && income >= 40000",
+							"description": "Custom MVEL condition"
+						}
+					]
+				},
+				"description": "Evaluates custom condition: age >= 18 && income >= 40000"
+			}
+		},
+		{
+			"name": "Evaluate Custom Rule - Complex Condition",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"customer\": {\n      \"tier\": \"gold\",\n      \"orderCount\": 15,\n      \"totalSpent\": 5000\n    },\n    \"order\": {\n      \"amount\": 300,\n      \"category\": \"electronics\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/custom?condition=customer.tier%20%3D%3D%20%27gold%27%20%26%26%20customer.orderCount%20%3E%3D%2010%20%26%26%20order.amount%20%3E%3D%20200",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"custom"
+					],
+					"query": [
+						{
+							"key": "condition",
+							"value": "customer.tier == 'gold' && customer.orderCount >= 10 && order.amount >= 200",
+							"description": "Complex MVEL condition with nested objects"
+						}
+					]
+				},
+				"description": "Evaluates complex condition with nested objects"
+			}
+		},
+		{
+			"name": "Evaluate Custom Rule - String Operations",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"product\": {\n      \"name\": \"iPhone 15 Pro\",\n      \"category\": \"electronics\",\n      \"brand\": \"Apple\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/custom?condition=product.name.contains%28%27iPhone%27%29%20%26%26%20product.brand%20%3D%3D%20%27Apple%27",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"custom"
+					],
+					"query": [
+						{
+							"key": "condition",
+							"value": "product.name.contains('iPhone') && product.brand == 'Apple'",
+							"description": "MVEL condition with string operations"
+						}
+					]
+				},
+				"description": "Evaluates condition with string operations"
+			}
+		},
+		{
+			"name": "Evaluate Custom Rule - Array Operations",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"order\": {\n      \"items\": [\"laptop\", \"mouse\", \"keyboard\"],\n      \"total\": 1200\n    },\n    \"restrictedItems\": [\"weapons\", \"drugs\", \"alcohol\"]\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/custom?condition=order.total%20%3E%201000%20%26%26%20!order.items.any%28item%20-%3E%20restrictedItems.contains%28item%29%29",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"custom"
+					],
+					"query": [
+						{
+							"key": "condition",
+							"value": "order.total > 1000 && !order.items.any(item -> restrictedItems.contains(item))",
+							"description": "MVEL condition with array operations"
+						}
+					]
+				},
+				"description": "Evaluates condition with array operations"
+			}
+		},
+		{
+			"name": "Evaluate Custom Rule - Invalid Expression",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"value\": 100\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/custom?condition=invalid%20syntax%20here",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"custom"
+					],
+					"query": [
+						{
+							"key": "condition",
+							"value": "invalid syntax here",
+							"description": "Invalid MVEL syntax to test error handling"
+						}
+					]
+				},
+				"description": "Tests error handling with invalid MVEL syntax"
+			}
+		},
+		{
+			"name": "Evaluate Custom Rule - Non-Boolean Result",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"runtimeData\": {\n    \"value\": 100\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/custom?condition=value%20%2B%2050",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"custom"
+					],
+					"query": [
+						{
+							"key": "condition",
+							"value": "value + 50",
+							"description": "Expression that returns a number instead of boolean"
+						}
+					]
+				},
+				"description": "Tests error handling when expression returns non-boolean result"
+			}
+		},
+		{
+			"name": "Get Cache Statistics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/cache/stats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"cache",
+						"stats"
+					]
+				},
+				"description": "Gets cache statistics for the rule evaluator service"
+			}
+		},
+		{
+			"name": "Clear Cache",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/cache",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"cache"
+					]
+				},
+				"description": "Clears the expression cache"
+			}
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rules/evaluate/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rules",
+						"evaluate",
+						"health"
+					]
+				},
+				"description": "Health check endpoint for the rule evaluator service"
+			}
+		}
+	]
+} 

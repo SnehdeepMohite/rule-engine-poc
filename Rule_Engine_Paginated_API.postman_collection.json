@@ -1,0 +1,618 @@
+{
+	"info": {
+		"_postman_id": "rule-engine-paginated-api",
+		"name": "Rule Engine Paginated API",
+		"description": "Collection for testing paginated rule engine API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Rules (Paginated)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/paginated?page=1&size=10&sortBy=name&sortDirection=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"paginated"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "Page number (1-based)"
+						},
+						{
+							"key": "size",
+							"value": "10",
+							"description": "Number of items per page"
+						},
+						{
+							"key": "sortBy",
+							"value": "name",
+							"description": "Field to sort by (id, name, product, priority, enabled, version, createdAt, updatedAt)"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc",
+							"description": "Sort direction (asc or desc)"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get All Rules (Paginated) - Page 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/paginated?page=2&size=5&sortBy=priority&sortDirection=desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"paginated"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						},
+						{
+							"key": "sortBy",
+							"value": "priority"
+						},
+						{
+							"key": "sortDirection",
+							"value": "desc"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Rules by Product (Paginated)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/product/ecommerce/paginated?page=1&size=10&sortBy=name&sortDirection=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"product",
+						"ecommerce",
+						"paginated"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "name"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Rules by Product (Paginated) - Different Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/product/mobile/paginated?page=1&size=5&sortBy=priority&sortDirection=desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"product",
+						"mobile",
+						"paginated"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						},
+						{
+							"key": "sortBy",
+							"value": "priority"
+						},
+						{
+							"key": "sortDirection",
+							"value": "desc"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Enabled Rules (Paginated)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/status/true?page=1&size=10&sortBy=name&sortDirection=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"status",
+						"true"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "name"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Disabled Rules (Paginated)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/status/false?page=1&size=10&sortBy=name&sortDirection=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"status",
+						"false"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "name"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get All Rules (Paginated) - Default Values",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/paginated",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"paginated"
+					]
+				},
+				"description": "Test with default values: page=1, size=10, sortBy=name, sortDirection=asc"
+			}
+		},
+		{
+			"name": "Get All Rules (Paginated) - Large Page Size",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/paginated?page=1&size=50&sortBy=createdAt&sortDirection=desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"paginated"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "50"
+						},
+						{
+							"key": "sortBy",
+							"value": "createdAt"
+						},
+						{
+							"key": "sortDirection",
+							"value": "desc"
+						}
+					]
+				},
+				"description": "Test with larger page size and sorting by creation date"
+			}
+		},
+		{
+			"name": "Search Rules by Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/search?name=discount&page=1&size=10&sortBy=name&sortDirection=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "discount",
+							"description": "Search for rules containing 'discount' in name"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "name"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc"
+						}
+					]
+				},
+				"description": "Search for rules by name containing 'discount'"
+			}
+		},
+		{
+			"name": "Search Rules by Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/search?product=ecommerce&page=1&size=10&sortBy=name&sortDirection=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"search"
+					],
+					"query": [
+						{
+							"key": "product",
+							"value": "ecommerce",
+							"description": "Search for rules containing 'ecommerce' in product"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "name"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc"
+						}
+					]
+				},
+				"description": "Search for rules by product containing 'ecommerce'"
+			}
+		},
+		{
+			"name": "Search Rules by Name and Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/search?name=amazon&product=channel&page=1&size=10&sortBy=priority&sortDirection=desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "amazon",
+							"description": "Search for rules containing 'amazon' in name"
+						},
+						{
+							"key": "product",
+							"value": "channel",
+							"description": "Search for rules containing 'channel' in product"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "priority"
+						},
+						{
+							"key": "sortDirection",
+							"value": "desc"
+						}
+					]
+				},
+				"description": "Search for rules by name containing 'amazon' and product containing 'channel'"
+			}
+		},
+		{
+			"name": "Search Enabled Rules by Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/search?name=stock&enabled=true&page=1&size=10&sortBy=name&sortDirection=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "stock",
+							"description": "Search for rules containing 'stock' in name"
+						},
+						{
+							"key": "enabled",
+							"value": "true",
+							"description": "Only enabled rules"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "name"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc"
+						}
+					]
+				},
+				"description": "Search for enabled rules by name containing 'stock'"
+			}
+		},
+		{
+			"name": "Search Disabled Rules by Product",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/search?product=mobile&enabled=false&page=1&size=10&sortBy=name&sortDirection=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"search"
+					],
+					"query": [
+						{
+							"key": "product",
+							"value": "mobile",
+							"description": "Search for rules containing 'mobile' in product"
+						},
+						{
+							"key": "enabled",
+							"value": "false",
+							"description": "Only disabled rules"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortBy",
+							"value": "name"
+						},
+						{
+							"key": "sortDirection",
+							"value": "asc"
+						}
+					]
+				},
+				"description": "Search for disabled rules by product containing 'mobile'"
+			}
+		},
+		{
+			"name": "Search Rules by Name, Product and Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/search?name=order&product=wms&enabled=true&page=1&size=5&sortBy=priority&sortDirection=desc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"search"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "order",
+							"description": "Search for rules containing 'order' in name"
+						},
+						{
+							"key": "product",
+							"value": "wms",
+							"description": "Search for rules containing 'wms' in product"
+						},
+						{
+							"key": "enabled",
+							"value": "true",
+							"description": "Only enabled rules"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						},
+						{
+							"key": "sortBy",
+							"value": "priority"
+						},
+						{
+							"key": "sortDirection",
+							"value": "desc"
+						}
+					]
+				},
+				"description": "Search for enabled rules by name containing 'order' and product containing 'wms'"
+			}
+		},
+		{
+			"name": "Search Rules - Default Values",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/rules/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"rules",
+						"search"
+					]
+				},
+				"description": "Test search endpoint with default values (returns all rules)"
+			}
+		}
+	]
+} 
